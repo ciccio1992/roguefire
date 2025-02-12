@@ -1,0 +1,4 @@
+res://scenes/home.tscn
+res://scripts/player.gd
+res://scripts/basic_movement.gd
+res://scripts/killzone.gd

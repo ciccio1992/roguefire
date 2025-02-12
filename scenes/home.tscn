@@ -1,0 +1,106 @@
+[gd_scene load_steps=15 format=4 uid="uid://box8mbb22crc0"]
+
+[ext_resource type="Texture2D" uid="uid://0wltygbs4s62" path="res://assets/360_F_1026959900_08kuNKREqHb4bvWMgxIvuT5bcFLlGAZ9.jpg" id="1_6l6h2"]
+[ext_resource type="Texture2D" uid="uid://djlexayuib4hd" path="res://assets/sprites/platforms.png" id="1_uhphp"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="2_t31a2"]
+[ext_resource type="Texture2D" uid="uid://dtvu7lfbybsm" path="res://assets/sprites/knight.png" id="3_kqnsb"]
+[ext_resource type="Script" path="res://scripts/killzone.gd" id="5_hsb2k"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4d2li"]
+texture = ExtResource("1_uhphp")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 0, 8, -8, -8, -8, -8, 0)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, 0, 8, 0, 8, -8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, 0, 8, 0, 8, -8)
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_agpuc"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_4d2li")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t508r"]
+radius = 6.0
+height = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgn1x"]
+atlas = ExtResource("3_kqnsb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xy5m7"]
+atlas = ExtResource("3_kqnsb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhswl"]
+atlas = ExtResource("3_kqnsb")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_240cj"]
+atlas = ExtResource("3_kqnsb")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mwmv2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lgn1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xy5m7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mhswl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_240cj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1ulpp"]
+
+[node name="Home" type="Node2D"]
+
+[node name="360F102695990008KuNkrEqHb4BvWMgxIvuT5BcFLlGaz9" type="Sprite2D" parent="."]
+position = Vector2(-1, 1)
+scale = Vector2(0.619444, 0.619444)
+texture = ExtResource("1_6l6h2")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-2, 13)
+tile_map_data = PackedByteArray("AAD8/wEAAAAAAAAAAAD9/wIAAAAAAAAAAAD+/wMAAAAAAAAAAAD//wIAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAIAAAABAAAAAAADAAIAAAACAAAAAAA=")
+tile_set = SubResource("TileSet_agpuc")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("2_t31a2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_t508r")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Player"]
+sprite_frames = SubResource("SpriteFrames_mwmv2")
+autoplay = "default"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("5_hsb2k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 111)
+shape = SubResource("WorldBoundaryShape2D_1ulpp")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
