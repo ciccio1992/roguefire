@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 100.0
-const JUMP_VELOCITY = -200.0
+const SPEED = 130.0
+const JUMP_VELOCITY = -300.0
 
 
 func _physics_process(delta: float) -> void:
@@ -27,7 +27,6 @@ func _physics_process(delta: float) -> void:
 
 func respawn():
 	position = Vector2(0,0)
-	self.global_position
 
 #func spawn_fire_sprite_on_player():
 	#self.spawn_on_position(fire)
